@@ -3,6 +3,8 @@ import './App.css';
 import { client } from './deliveryClient';
 import { LandingPage, WebSpotlightRoot, contentTypes } from './models';
 import KontentSmartLink from '@kontent-ai/smart-link';
+import { PortableText } from '@portabletext/react';
+import { browserParse, transformToPortableText } from '@kontent-ai/rich-text-resolver';
 
 function App() {
 
@@ -38,7 +40,7 @@ function App() {
       {item && (
         <div data-kontent-item-id={item.system.id}>
           <h1 data-kontent-element-codename={contentTypes.landing_page.elements.title.codename}>{item.elements.title.value}</h1>
-          <div data-kontent-element-codename={contentTypes.landing_page.elements.body.codename} dangerouslySetInnerHTML={{ __html: item.elements.body.value }}></div>
+          <PortableText value={transformToPortableText(browserParse(item.elements.body.value))} />
           <img
             data-kontent-element-codename={contentTypes.landing_page.elements.image.codename}
             src={item.elements.image.value[0].url}
